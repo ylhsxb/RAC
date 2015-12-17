@@ -1,11 +1,11 @@
-#include "StorkApp.h"
+#include "RacApp.h"
 #include "Moose.h"
 #include "AppFactory.h"
 #include "ModulesApp.h"
 #include "MooseSyntax.h"
 
 template<>
-InputParameters validParams<StorkApp>()
+InputParameters validParams<RacApp>()
 {
   InputParameters params = validParams<MooseApp>();
 
@@ -16,40 +16,40 @@ InputParameters validParams<StorkApp>()
   return params;
 }
 
-StorkApp::StorkApp(InputParameters parameters) :
+RacApp::RacApp(InputParameters parameters) :
     MooseApp(parameters)
 {
   Moose::registerObjects(_factory);
   ModulesApp::registerObjects(_factory);
-  StorkApp::registerObjects(_factory);
+  RacApp::registerObjects(_factory);
 
   Moose::associateSyntax(_syntax, _action_factory);
   ModulesApp::associateSyntax(_syntax, _action_factory);
-  StorkApp::associateSyntax(_syntax, _action_factory);
+  RacApp::associateSyntax(_syntax, _action_factory);
 }
 
-StorkApp::~StorkApp()
+RacApp::~RacApp()
 {
 }
 
 // External entry point for dynamic application loading
-extern "C" void StorkApp__registerApps() { StorkApp::registerApps(); }
+extern "C" void RacApp__registerApps() { RacApp::registerApps(); }
 void
-StorkApp::registerApps()
+RacApp::registerApps()
 {
-  registerApp(StorkApp);
+  registerApp(RacApp);
 }
 
 // External entry point for dynamic object registration
-extern "C" void StorkApp__registerObjects(Factory & factory) { StorkApp::registerObjects(factory); }
+extern "C" void RacApp__registerObjects(Factory & factory) { RacApp::registerObjects(factory); }
 void
-StorkApp::registerObjects(Factory & factory)
+RacApp::registerObjects(Factory & factory)
 {
 }
 
 // External entry point for dynamic syntax association
-extern "C" void StorkApp__associateSyntax(Syntax & syntax, ActionFactory & action_factory) { StorkApp::associateSyntax(syntax, action_factory); }
+extern "C" void RacApp__associateSyntax(Syntax & syntax, ActionFactory & action_factory) { RacApp::associateSyntax(syntax, action_factory); }
 void
-StorkApp::associateSyntax(Syntax & /*syntax*/, ActionFactory & /*action_factory*/)
+RacApp::associateSyntax(Syntax & /*syntax*/, ActionFactory & /*action_factory*/)
 {
 }

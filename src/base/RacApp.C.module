@@ -1,0 +1,52 @@
+#include "RacApp.h"
+#include "Moose.h"
+#include "AppFactory.h"
+#include "MooseSyntax.h"
+
+template<>
+InputParameters validParams<RacApp>()
+{
+  InputParameters params = validParams<MooseApp>();
+
+  params.set<bool>("use_legacy_uo_initialization") = false;
+  params.set<bool>("use_legacy_uo_aux_computation") = false;
+  return params;
+}
+
+RacApp::RacApp(const std::string & name, InputParameters parameters) :
+    MooseApp(name, parameters)
+{
+  srand(processor_id());
+
+  Moose::registerObjects(_factory);
+  RacApp::registerObjects(_factory);
+
+  Moose::associateSyntax(_syntax, _action_factory);
+  RacApp::associateSyntax(_syntax, _action_factory);
+}
+
+RacApp::~RacApp()
+{
+}
+
+// External entry point for dynamic application loading
+extern "C" void RacApp__registerApps() { RacApp::registerApps(); }
+void
+RacApp::registerApps()
+{
+  registerApp(RacApp);
+}
+
+// External entry point for dynamic object registration
+extern "C" void RacApp__registerObjects(Factory & factory) { RacApp::registerObjects(factory); }
+void
+RacApp::registerObjects(Factory & factory)
+{
+}
+
+// External entry point for dynamic syntax association
+extern "C" void RacApp__associateSyntax(Syntax & syntax, ActionFactory & action_factory) { RacApp::associateSyntax(syntax, action_factory); }
+void
+RacApp::associateSyntax(Syntax & /*syntax*/, ActionFactory & /*action_factory*/)
+{
+}
